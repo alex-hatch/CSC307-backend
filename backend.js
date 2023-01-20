@@ -99,8 +99,9 @@ const findUserByNameAndJob = (name, job) => {
 
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
+    userToAdd.id = Math.random();
     addUser(userToAdd);
-    res.status(200).end();
+    res.status(201).end();
 });
 
 function addUser(user){
