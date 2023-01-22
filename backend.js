@@ -1,14 +1,14 @@
 const express = require('express');
 const app = express();
-const port = 5001;
+const port = 5340;
 
 const users = { 
     users_list :
     [
        { 
-          id : 'xyz789',
           name : 'Charlie',
           job: 'Janitor',
+          id : 'xyz789',
        },
        {
           id : 'abc123', 
@@ -79,6 +79,7 @@ app.delete('/users/:id', (req, res) => {
     else {
         removeUser(result);
         res.send(id);
+        res.status(204).end();
     }
 });
 
@@ -97,9 +98,19 @@ const findUserByNameAndJob = (name, job) => {
 }
 
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
-    userToAdd.id = Math.random();
+    userToAdd.id = makeid(5);
     addUser(userToAdd);
     res.send(userToAdd);
     res.status(201).end();
